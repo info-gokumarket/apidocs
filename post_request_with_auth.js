@@ -1,3 +1,8 @@
+/*
+    * Creator: Gokumarket
+    * Description: Node.js implementation of hitting a POST request with authentication
+*/
+
 const axios = require('axios');
 const CryptoJS = require('crypto-js');
 
