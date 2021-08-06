@@ -5,13 +5,14 @@
 
 const axios = require('axios');
 const CryptoJS = require('crypto-js');
+const qs = require('qs');
 
 // change your keys
 const API_KEY = '';
 const SECRET_KEY = '';
 const BASE_URL = 'https://publicapi.gokumarket.com';
 
-const url = '/exchange/getUserOrderInfo';
+const url = '/exchange/getUserOpenOrders';
 
 function getHeaders(apiKey) {
     const currentTime = (new Date()).getTime();
@@ -43,7 +44,7 @@ function getSignature(url, params, headers, secretKey) {
     // We are passing the extra key values pairs before serializing our request params
     message['X-NONCE'] = headers['X-NONCE'];
     message['X-RECV-WINDOW'] = headers['X-RECV-WINDOW'];
-    message['X-REQUEST-URL'] = url;
+    message['X-REQUEST-URL'] = `${url}?${qs.stringify(params)}`;
 
     const messageSorted = sortObjectAlphabetically(message);
 
@@ -64,7 +65,7 @@ console.log('headers', headers);
 
 const params = {
     currency_pair: 'BTC_USDT',
-    orderId: 'btc-usdt-0f31eb7a-96c6-4676-b9be-a926e51ac08d'
+    limit: '10'
 };
 
 console.log('params', params);
