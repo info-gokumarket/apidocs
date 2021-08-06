@@ -26,6 +26,7 @@ function getHeaders(apiKey) {
     return headers;
 }
 
+// will sort the object keys in alphabetical order
 function sortObjectAlphabetically(obj) {
     const messageSorted = Object.keys(obj).sort().reduce((acc, key) => {
         acc[key] = obj[key];
@@ -44,7 +45,12 @@ function getSignature(url, params, headers, secretKey) {
     // We are passing the extra key values pairs before serializing our request params
     message['X-NONCE'] = headers['X-NONCE'];
     message['X-RECV-WINDOW'] = headers['X-RECV-WINDOW'];
-    message['X-REQUEST-URL'] = `${url}?${qs.stringify(params)}`;
+
+    if (Object.keys(params).length === 0)
+        message['X-REQUEST-URL'] = url;
+
+    else
+        message['X-REQUEST-URL'] = `${url}?${qs.stringify(params)}`;
 
     const messageSorted = sortObjectAlphabetically(message);
 
@@ -65,7 +71,7 @@ console.log('headers', headers);
 
 const params = {
     currency_pair: 'BTC_USDT',
-    limit: '10'
+    limit: 10
 };
 
 console.log('params', params);
